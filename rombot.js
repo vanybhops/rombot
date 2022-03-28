@@ -1,6 +1,7 @@
 const sleep = (milliseconds) => {return new Promise(resolve => setTimeout(resolve, milliseconds))};
 const fetch = require('node-fetch');
 const WebSocket  = require('ws');
+let podsjetnik=false
 let token=""
 async function provjeracijene(chid,vrsta,msid) {
     await fetch("https://prizmacomerc.ba/cijenovnik-otkupa-sekundarnih-sirovina/", {
@@ -13,41 +14,53 @@ async function provjeracijene(chid,vrsta,msid) {
         vrsta=vrsta.replace("!rombot ","")
         switch (vrsta) {
             case "bakar":
-                sendmsg(chid,"cijena bakra je :"+ar[4]+"KM/kg\n\t\t\t\t\t\t\t"+(parseFloat(ar[4])/1.952).toFixed(2)+" EUR/kg"+
-                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[4])*3.883).toFixed(2)+" HRK/kg"+
-                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[4])*59.76).toFixed(2)+" RSD/kg",msid)
+                sendmsg(chid,"cijena bakra je :"+ar[4].replace(",",".")+"KM/kg\n\t\t\t\t\t\t\t"+(parseFloat(ar[4].replace(",","."))/1.952).toFixed(2)+" EUR/kg"+
+                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[4].replace(",","."))*3.883).toFixed(2)+" HRK/kg"+
+                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[4].replace(",","."))*59.76).toFixed(2)+" RSD/kg",msid)
                 break
             case "zeljezo":
-                sendmsg(chid,"cijena zeljeza je :"+ar[1]+"KM/kg\n\t\t\t\t\t\t\t"+(parseFloat(ar[1])/1.952).toFixed(2)+" EUR/kg"+
-                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[4])*3.883).toFixed(2)+" HRK/kg"+
-                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[4])*59.76).toFixed(2)+" RSD/kg",msid)
+                sendmsg(chid,"cijena zeljeza je :"+ar[1].replace(",",".")+"KM/kg\n\t\t\t\t\t\t\t"+(parseFloat(ar[1].replace(",","."))/1.952).toFixed(2)+" EUR/kg"+
+                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[1].replace(",","."))*3.883).toFixed(2)+" HRK/kg"+
+                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[1].replace(",","."))*59.76).toFixed(2)+" RSD/kg",msid)
                 break
             case "aluminij":
-                sendmsg(chid,"cijena aluminija je :"+ar[8]+"KM/kg\n\t\t\t\t\t\t\t"+(parseFloat(ar[8])/1.952).toFixed(2)+" EUR/kg"+
-                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[4])*3.883).toFixed(2)+" HRK/kg"+
-                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[4])*59.76).toFixed(2)+" RSD/kg",msid)
+                sendmsg(chid,"cijena aluminija je :"+ar[8].replace(",",".")+"KM/kg\n\t\t\t\t\t\t\t"+(parseFloat(ar[8].replace(",","."))/1.952).toFixed(2)+" EUR/kg"+
+                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[8].replace(",","."))*3.883).toFixed(2)+" HRK/kg"+
+                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[8].replace(",","."))*59.76).toFixed(2)+" RSD/kg",msid)
                 break
             case "olovo":
-                sendmsg(chid,"cijena olova je :"+ar[11]+"KM/kg\n\t\t\t\t\t\t\t"+(parseFloat(ar[11])/1.952).toFixed(2)+" EUR/kg"+
-                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[4])*3.883).toFixed(2)+" HRK/kg"+
-                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[4])*59.76).toFixed(2)+" RSD/kg",msid)
+                sendmsg(chid,"cijena olova je :"+ar[11].replace(",",".")+"KM/kg\n\t\t\t\t\t\t\t"+(parseFloat(ar[11].replace(",","."))/1.952).toFixed(2)+" EUR/kg"+
+                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[11].replace(",","."))*3.883).toFixed(2)+" HRK/kg"+
+                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[11].replace(",","."))*59.76).toFixed(2)+" RSD/kg",msid)
                 break
             case "akumulatori":
-                sendmsg(chid,"cijena akumulatora je :"+ar[12]+"KM/kg\n\t\t\t\t\t\t\t"+(parseFloat(ar[12])/1.952).toFixed(2)+" EUR/kg"+
-                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[4])*3.883).toFixed(2)+" HRK/kg"+
-                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[4])*59.76).toFixed(2)+" RSD/kg",msid)
+                sendmsg(chid,"cijena akumulatora je :"+ar[12].replace(",",".")+"KM/kg\n\t\t\t\t\t\t\t"+(parseFloat(ar[12].replace(",","."))/1.952).toFixed(2)+" EUR/kg"+
+                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[12].replace(",","."))*3.883).toFixed(2)+" HRK/kg"+
+                "\n\t\t\t\t\t\t\t"+(parseFloat(ar[12].replace(",","."))*59.76).toFixed(2)+" RSD/kg",msid)
                 break
+            case "podsjetnik sekiju da se ubije":
+
+                if(podsjetnik!=true){
+                podsjetnik=true
+                ubijse(chid,msid)
+                }
+                break;
             default:
                 break;
         }
     }
+    async function ubijse(x,msid){
+    while (true){
+      sendmsg(x,"ubij se <@956162846604001300>",msid)
+      await sleep(1800000);
+    }}
 }
 async function getmsg(guid,msid) {
   await sleep(300)
   try {
     await fetch(`https://discord.com/api/v9/channels/${guid}/messages?limit=1&around=${msid}`, {
       "headers": {
-        "authorization": "OTQ1MDc0Mzk1NzA0MDc0Mjcx.Yiu_iA.I5aiDCoxZ7b8tqEgLrY_nz7FQXI",},
+        "authorization": token},
       "method": "GET",
     }).then(r=>{return r.json()}).then(
       x=>{
@@ -61,6 +74,17 @@ async function getmsg(guid,msid) {
 
 }
 function sendmsg(chid,ctx,msid) {
+
+    if(ctx.match("ubij")){
+        fetch(`https://discord.com/api/v9/channels/${chid}/messages`, {
+    "headers": {
+      "authorization": `${token}`,
+      "content-type": "application/json"},
+    "body": JSON.stringify({content:ctx}),
+    "method": "POST",
+  })
+    return
+    }
     fetch(`https://discord.com/api/v9/channels/${chid}/messages`, {
     "headers": {
       "authorization": `${token}`,
@@ -69,7 +93,15 @@ function sendmsg(chid,ctx,msid) {
     "method": "POST",
   })
 }
+async function recursive() {
+
 let socket = new WebSocket("wss://gateway.discord.gg/?v=6&encording=json");
+socket.onready = function(event){
+    console.log("bot je spreman")
+}
+socket.onclose = async function(event){
+    recursive()
+}
 socket.onmessage = async function(event) {
     let ejson = JSON.parse(event.data);
     let e = JSON.stringify(event.data);
@@ -109,3 +141,5 @@ socket.onmessage = async function(event) {
       getmsg(ejson['d']['channel_id'],ejson['d']['id'])
     }
 }
+}
+recursive()
