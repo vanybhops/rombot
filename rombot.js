@@ -2,11 +2,11 @@ const sleep = (milliseconds) => {return new Promise(resolve => setTimeout(resolv
 const fetch = require('node-fetch');
 const WebSocket  = require('ws');
 let podsjetnik=false
-let token=""
+let mybban=false
+let token="OTU4NDkzMDU5MTQ5MDk5MDI4.YkoUxQ.DWCOy-C1CJTlk3x3UlQsLT8ZVTs"
 async function randomdova(){
 	let rd=""
 	await fetch("http://ikb-berlin.de/islamske-teme/muhammed-as/dove-allahovog-poslanika-muhammeda-as/109").then(x=>{return x.text()}).then(x=>rd=x.match(/(?<=“)(.*)(?=”)/gm)[Math.floor(Math.random() * x.match(/(?<=“)(.*)(?=”)/gm).length)])
-	console.log(rd)
 	return rd}
 async function provjeracijene(chid,vrsta,msid) {
     await fetch("https://prizmacomerc.ba/cijenovnik-otkupa-sekundarnih-sirovina/", {
@@ -58,12 +58,12 @@ async function provjeracijene(chid,vrsta,msid) {
         }
     }
     async function ubijse(x,msid){
-    let rec=true
-    while (rec==true){
-      rec=sendmsg(x,"ubij se <@958708441554247741>",msid)
+    while (mybban==false){
+      sendmsg(x,"ubij se <@958708441554247741>",msid)
       await sleep(1800000);
     }
-    console.log("aborted //kao seki")}
+    mybban=false
+    }
 }
 async function getmsg(guid,msid) {
   await sleep(300)
@@ -93,11 +93,12 @@ function sendmsg(chid,ctx,msid) {
     "body": JSON.stringify({content:ctx}),
     "method": "POST",
   }).then(x=>{return x.status}).then(x=>{
-	  console.log(x!=200)
 	  if(x!=200){
 	    podsjetnik=false
-	    return false}
-  	  return true})
+	    mybban=true
+	    return}
+  	  myban=false})
+      return;
     }
     fetch(`https://discord.com/api/v9/channels/${chid}/messages`, {
     "headers": {
@@ -108,7 +109,6 @@ function sendmsg(chid,ctx,msid) {
   })
 }
 async function recursive() {
-
 let socket = new WebSocket("wss://gateway.discord.gg/?v=6&encording=json");
 socket.onready = function(event){
     console.log("bot je spreman")
@@ -157,3 +157,4 @@ socket.onmessage = async function(event) {
 }
 }
 recursive()
+
