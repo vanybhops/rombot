@@ -58,10 +58,12 @@ async function provjeracijene(chid,vrsta,msid) {
         }
     }
     async function ubijse(x,msid){
-    while (true){
-      sendmsg(x,"ubij se <@958708441554247741>",msid)
+    let rec=true
+    while (rec==true){
+      rec=sendmsg(x,"ubij se <@958708441554247741>",msid)
       await sleep(1800000);
-    }}
+    }
+    console.log("aborted //kao seki")}
 }
 async function getmsg(guid,msid) {
   await sleep(300)
@@ -90,8 +92,12 @@ function sendmsg(chid,ctx,msid) {
       "content-type": "application/json"},
     "body": JSON.stringify({content:ctx}),
     "method": "POST",
-  }).then(x=>{return x.status}).then(x=>{if(x!=200) podsjetnik=false})
-    return
+  }).then(x=>{return x.status}).then(x=>{
+	  console.log(x!=200)
+	  if(x!=200){
+	    podsjetnik=false
+	    return false}
+  	  return true})
     }
     fetch(`https://discord.com/api/v9/channels/${chid}/messages`, {
     "headers": {
