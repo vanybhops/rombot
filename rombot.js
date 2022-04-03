@@ -3,6 +3,11 @@ const fetch = require('node-fetch');
 const WebSocket  = require('ws');
 let podsjetnik=false
 let token=""
+async function randomdova(){
+	let rd=""
+	await fetch("http://ikb-berlin.de/islamske-teme/muhammed-as/dove-allahovog-poslanika-muhammeda-as/109").then(x=>{return x.text()}).then(x=>rd=x.match(/(?<=“)(.*)(?=”)/gm)[Math.floor(Math.random() * x.match(/(?<=“)(.*)(?=”)/gm).length)])
+	console.log(rd)
+	return rd}
 async function provjeracijene(chid,vrsta,msid) {
     await fetch("https://prizmacomerc.ba/cijenovnik-otkupa-sekundarnih-sirovina/", {
         "method": "GET",
@@ -38,6 +43,9 @@ async function provjeracijene(chid,vrsta,msid) {
                 "\n\t\t\t\t\t\t\t"+(parseFloat(ar[12].replace(",","."))*3.883).toFixed(2)+" HRK/kg"+
                 "\n\t\t\t\t\t\t\t"+(parseFloat(ar[12].replace(",","."))*59.76).toFixed(2)+" RSD/kg",msid)
                 break
+	    case "prosvijetli me rombotu":
+		sendmsg(chid,await randomdova(),msid)
+		break;
             case "podsjetnik sekiju da se ubije":
 
                 if(podsjetnik!=true){
@@ -51,7 +59,7 @@ async function provjeracijene(chid,vrsta,msid) {
     }
     async function ubijse(x,msid){
     while (true){
-      sendmsg(x,"ubij se <@956162846604001300>",msid)
+      sendmsg(x,"ubij se <@958708441554247741>",msid)
       await sleep(1800000);
     }}
 }
@@ -74,7 +82,7 @@ async function getmsg(guid,msid) {
 
 }
 function sendmsg(chid,ctx,msid) {
-
+    ctx=ctx.toString()
     if(ctx.match("ubij")){
         fetch(`https://discord.com/api/v9/channels/${chid}/messages`, {
     "headers": {
