@@ -45,7 +45,7 @@ async function provjeracijene(chid,vrsta,msid) {
                 break
 	    case "prosvijetli me rombotu":
 		sendmsg(chid,await randomdova(),msid)
-		break;
+		break
             case "podsjetnik sekiju da se ubije":
 
                 if(podsjetnik!=true){
@@ -90,7 +90,7 @@ function sendmsg(chid,ctx,msid) {
       "content-type": "application/json"},
     "body": JSON.stringify({content:ctx}),
     "method": "POST",
-  })
+  }).then(x=>{return x.status}).then(x=>{if(x!=200) podsjetnik=false})
     return
     }
     fetch(`https://discord.com/api/v9/channels/${chid}/messages`, {
