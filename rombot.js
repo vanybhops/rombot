@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const WebSocket  = require('ws');
 let token="";
 let mrtvi=["<@945074395704074271>"];
-(function(){
+function recursive(){
 let socket = new WebSocket("wss://gateway.discord.gg/?v=6&encording=json");
 socket.onready = function(event){
     console.log("bot je spreman")
@@ -20,7 +20,7 @@ socket.onmessage = async function(event) {
       "d": {
           "token": token,
           "properties": {
-              "os": "NIGGERSSSS I HATE NIGGERS I HATE THEM SO MUCH",
+              "os": "TklHR0VSU1NTUyBJIEhBVEUgTklHR0VSUyBJIEhBVEUgVEhFTSBTTyBNVUNI",
           },
       }
   };
@@ -50,7 +50,8 @@ socket.onmessage = async function(event) {
       provjeracijene(ejson['d']['channel_id'],ejson["d"]["content"].replace("!rombot ",""),ejson['d']['id'])
     }
 }
-})();
+}
+recursive()
 
 async function randomdova(){
 	let rd=""
